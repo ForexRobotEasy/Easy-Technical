@@ -1,0 +1,86 @@
+
+//+------------------------------------------------------------------+
+//|                                        Easy Technical Indicator  |
+//|                            Developed by Forex Robot Easy Team     |
+//|                                     www.forexroboteasy.com        |
+//+------------------------------------------------------------------+
+
+//---- Indicator parameters
+#property indicator_chart_window
+#property indicator_buffers 1
+#property indicator_color1 Blue
+
+//---- Indicator buffers
+double TrendBuffer[];
+
+//+------------------------------------------------------------------+
+//| Custom indicator initialization function                         |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    //---- Indicator buffers mapping
+    SetIndexBuffer(0, TrendBuffer, INDICATOR_DATA);
+
+    //---- Set indicator name
+    IndicatorShortName('Easy Technical');
+
+    //---- Additional initialization
+    // Insert your code here for any additional initialization
+
+    return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Custom indicator iteration function                              |
+//+------------------------------------------------------------------+
+int OnCalculate(const int rates_total,
+                const int prev_calculated,
+                const datetime &time[],
+                const double &open[],
+                const double &high[],
+                const double &low[],
+                const double &close[],
+                const long &tick_volume[],
+                const long &volume[],
+                const int &spread[])
+{
+    //---- Detect market trends and assess their strength
+    for(int i = prev_calculated; i < rates_total; i++)
+    {
+        // Calculate trend strength based on histogram
+        double trendStrength = calculateTrendStrength(open, high, low, close, i);
+
+        // Determine market trend based on histogram value
+        if(trendStrength > 0)
+        {
+            TrendBuffer[i] = trendStrength; // Bullish trend
+        }
+        else if(trendStrength < 0)
+        {
+            TrendBuffer[i] = trendStrength; // Bearish trend
+        }
+        else
+        {
+            TrendBuffer[i] = 0; // No trend
+        }
+    }
+
+    return(rates_total);
+}
+
+//+------------------------------------------------------------------+
+//| Custom function to calculate trend strength based on histogram    |
+//+------------------------------------------------------------------+
+double calculateTrendStrength(const double &open[],
+                              const double &high[],
+                              const double &low[],
+                              const double &close[],
+                              const int index)
+{
+    // Calculate trend strength based on histogram logic
+    // Insert your code here to calculate trend strength
+
+    double trendStrength = 0.0; // Placeholder value, replace with actual calculation
+
+    return trendStrength;
+}
